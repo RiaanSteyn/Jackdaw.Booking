@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.jackdaw</groupId>
+    <artifactId>parent-pom</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <name>bookings</name>
+
+    <modules>
+        <module>service</module>
+        <module>library</module>
+    </modules>
+
+    <properties>
+        <com.jackdaw.bookings.version>${project.version}</com.jackdaw.bookings.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.decipher-lab</groupId>
+                <artifactId>email.library</artifactId>
+                <version>${decipher-lab.email.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

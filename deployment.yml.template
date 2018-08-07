@@ -1,0 +1,74 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: bookings-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  minReadySeconds: 45
+  template:
+    metadata:
+      name: bookings
+      labels:
+        name: bookings
+    spec:
+      containers:
+      - image: gcr.io/${IMAGE_SOURCE}/bookings:${DOCKER_IMAGE_NUMBER}
+        name: bookings
+        env:
+          - name: security_jwt_verifierKeyPath
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: OAUTH_PUBLIC_KEY_URL
+          - name: logging_level_
+            value: "${LOGGING_LEVEL}"
+          - name: spring_datasource_url
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: BOOKINGS_DATASOURCE_URL
+          - name: spring_datasource_username
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: BOOKINGS_DATASOURCE_USERNAME
+          - name: spring_datasource_password
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: BOOKINGS_DATASOURCE_PASSWORD
+          - name: hibernate_dialect
+            value: "${HIBERNATE_DIALECT}"
+          - name: server_port
+            value: "${SERVER_PORT}"
+          - name: server_ssl_key_store_password
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: SSL_KEY_STORE_PASSWORD
+          - name: tracking_base_url
+            value: "${TRACKING_BASE_URL}"
+          - name: tracking_clicks_enabled
+            value: "${TRACKING_CLICKS_ENABLED}"
+          - name: tracking_opens_enabled
+            value: "${TRACKING_OPENS_ENABLED}"
+        ports:
+          - containerPort: 8443
+        volumeMounts:
+          - mountPath: "/etc/sslcerts"
+            name: "sslcerts"
+#          - mountPath: "/etc/assets"
+#            name: persistent-volume
+      volumes:
+        - name: "sslcerts"
+          secret:
+            secretName: secretssl
+#       - name: persistent-volume
+#         persistentVolumeClaim:
+#           claimName: assets-pv-claim
