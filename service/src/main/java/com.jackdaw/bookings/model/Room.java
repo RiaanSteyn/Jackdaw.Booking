@@ -24,6 +24,9 @@ public class Room {
     @Column(name = "beds")
     private int beds;
 
+    public Room() {
+    }
+
     public Room(int id, String description, double price, int beds) {
         this.id = id;
         this.description = description;

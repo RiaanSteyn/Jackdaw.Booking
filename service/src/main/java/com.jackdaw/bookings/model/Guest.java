@@ -1,5 +1,6 @@
 package com.jackdaw.bookings.model;
 
+import com.jackdaw.bookings.dto.GuestDto;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,18 +16,21 @@ public class Guest {
     private int id;
 
     @Column(name = "first_name")
-    private int firstName;
+    private String firstName;
 
     @Column(name = "surname")
-    private int surname;
+    private String surname;
 
     @Column(name = "cellphone_number")
-    private int cellphoneNumber;
+    private String cellphoneNumber;
 
     @Column(name = "email")
-    private int email;
+    private String email;
 
-    public Guest(int id, int firstName, int surname, int cellphoneNumber, int email) {
+    public Guest() {
+    }
+
+    public Guest(int id, String firstName, String surname, String cellphoneNumber, String email) {
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
@@ -38,19 +42,19 @@ public class Guest {
         return id;
     }
 
-    public int getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public int getSurname() {
+    public String getSurname() {
         return surname;
     }
 
-    public int getCellphoneNumber() {
+    public String getCellphoneNumber() {
         return cellphoneNumber;
     }
 
-    public int getEmail() {
+    public String getEmail() {
         return email;
     }
 
@@ -91,5 +95,9 @@ public class Guest {
                 .append("cellphoneNumber", cellphoneNumber)
                 .append("email", email)
                 .toString();
+    }
+
+    public GuestDto toDto() {
+        return new GuestDto(id, firstName, surname, cellphoneNumber, email);
     }
 }

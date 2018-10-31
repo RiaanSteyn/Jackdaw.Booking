@@ -6,6 +6,7 @@ import com.jackdaw.bookings.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto find(int roomId) {
-        Room room = roomRepository.findOne(roomId);
-        return room != null ? room.toDto(): null;
+        Optional<Room> room = roomRepository.findById(roomId);
+        return room.isPresent() ? room.get().toDto(): null;
     }
 }

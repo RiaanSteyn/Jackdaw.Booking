@@ -21,6 +21,10 @@ public class RoomController {
 
     private RoomService service;
 
+    public RoomController(RoomService service) {
+        this.service = service;
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create a room", response = RoomDto.class)
     @ApiResponses({ @ApiResponse(code = 400, message = "Invalid room supplied") })
@@ -43,7 +47,7 @@ public class RoomController {
 
 
 
-    @RequestMapping(value = "/roomId", method = RequestMethod.GET)
+    @RequestMapping(value = "/{roomId}", method = RequestMethod.GET)
     @ApiOperation(value = "Get rooms", response = RoomDto.class)
     @ApiResponses({ @ApiResponse(code = 400, message = "Rooms not found") })
     public Callable<ResponseEntity<RoomDto>> find(@PathVariable int roomId) {
